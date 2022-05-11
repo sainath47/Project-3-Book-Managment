@@ -1,0 +1,32 @@
+{
+  "name": "sainath",
+  "version": "1.0.0",
+  "description": "bookProject",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sainath47/Project-Book-Managment.git"
+  },
+  "keywords": [
+    "apis",
+    "general",
+    "query",
+    "operations"
+  ],
+  "author": "sainath only",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sainath47/Project-Book-Managment/issues"
+  },
+  "homepage": "https://github.com/sainath47/Project-Book-Managment#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.3",
+    "nodemon": "^2.0.16"
+  }
+}
