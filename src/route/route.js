@@ -1,11 +1,14 @@
 const express = require("express");
+const { createUser, login } = require("../controller/userController");
+const { validateCreateUserInputs, catchErrorOfUserInput, additionalValidationsCreateUser, additionalValidationsLoginUser, catchErrorOfLoginInput, loginUserInputsValidation } = require("../middleware/userValidation");
 const router = express.Router();// we were able to use app for get request but not here ,as we need Router function here ,why
 
 // router.get('/homepage',function(req,res){
 //     res.send({msg:"namastey sir"})
 // })
 
-
+router.post('/register',validateCreateUserInputs,catchErrorOfUserInput,additionalValidationsCreateUser ,createUser )
+router.post('/login',loginUserInputsValidation,catchErrorOfLoginInput,additionalValidationsLoginUser ,login)
 
 
 module.exports= router

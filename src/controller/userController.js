@@ -1,10 +1,30 @@
-const userModel= require('../model/userModel')
+const userModel = require("../model/userModel");
+const jwt = require('jsonwebtoken')
+const createUser = async function (req, res) {
+ try{ let body = req.body;
 
-const createUser= async function(req,res){
+  let userCreated = await userModel.create(body);
 
-    boby =req.body
+  res.status(200).send({ status: true, data: userCreated });}
+  catch(err){
+      res.status(500).send({status:false,message: err.message})
+  }
+};
 
-    let userCreated =await userModel.create(body)
+
+const login = async function(req,res){
+    try{
+
+let token = jwt.sign({userId:req.userId},'mySecret',{expiresIn:'2d'})
+
+res.header("x-auth-key",token)
+
+res.status(200).send({status:true,data: token})
+
+    }
+    catch(err){
+        res.status(500).send({status:false,message:err.message})
+    }
 }
 
-
+module.exports = { createUser,login };
