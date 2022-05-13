@@ -1,5 +1,7 @@
 const express = require("express");
+const {createBook, getBooks, getBookById, updateBook, deleteBook} = require("../controller/bookController");
 const { createUser, login } = require("../controller/userController");
+const { validateBookCreateInputs, catchErrorCreateBook, additionalValidationsCreateBook, validatingInputsOfGetBooks, catchErrorInputOfGetBooks, validatingInputsOfBookById, catchErrorInputOfBookById, validateUpdateBookInputs, catchErrorUpdateBookInputs, validateInputOfDeleteBook, catchErrorDeleteBookInput } = require("../middleware/bookValidation");
 const { validateCreateUserInputs, catchErrorOfUserInput, additionalValidationsCreateUser, additionalValidationsLoginUser, catchErrorOfLoginInput, loginUserInputsValidation } = require("../middleware/userValidation");
 const router = express.Router();// we were able to use app for get request but not here ,as we need Router function here ,why
 
@@ -7,9 +9,16 @@ const router = express.Router();// we were able to use app for get request but n
 //     res.send({msg:"namastey sir"})
 // })
 
+
+//User apis
 router.post('/register',validateCreateUserInputs,catchErrorOfUserInput,additionalValidationsCreateUser ,createUser )
 router.post('/login',loginUserInputsValidation,catchErrorOfLoginInput,additionalValidationsLoginUser ,login)
-
+//=========bookApis
+router.post('/books',validateBookCreateInputs,catchErrorCreateBook, additionalValidationsCreateBook ,createBook)
+router.get('/books',validatingInputsOfGetBooks,catchErrorInputOfGetBooks,getBooks )
+router.get('/books/:bookId',validatingInputsOfBookById,catchErrorInputOfBookById,getBookById )
+router.put('/books/:bookId',validateUpdateBookInputs,catchErrorUpdateBookInputs,updateBook )
+router.delete('/books/:bookId',validateInputOfDeleteBook,catchErrorDeleteBookInput,deleteBook )
 
 module.exports= router
 

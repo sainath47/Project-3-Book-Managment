@@ -11,9 +11,7 @@ const route = require("./route/route.js");
 app.use(bodyParser.json()); //whatever coming inside request it is converting into json
 app.use(bodyParser.urlencoded({ extended: true })); // parses data coming from html form
 
-app.get('/homepage',function(req,res){
-    res.send({msg:"namastey vai log"})
-})
+
 
 
 mongoose

@@ -33,6 +33,7 @@ exports.validateCreateUserInputs = [
 
 
     check("email")
+    .trim()
     .not()
     .isEmpty()
     .withMessage("email is a required field")
@@ -78,6 +79,7 @@ exports.additionalValidationsCreateUser = async function(req,res,next){
 
 exports.loginUserInputsValidation = [
   check("email")
+  .trim()
   .not()
   .isEmpty()
   .withMessage("email is a required field")

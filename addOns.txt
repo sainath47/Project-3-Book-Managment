@@ -1,0 +1,9 @@
+get /books
+Return all books sorted by book name in Alphabatical order
+
+
+Get book by bookId
+If the book has no reviews then the response body should include book detail as shown here and an empty array for reviewsData.
+(need to show reviews expanded form find id needed)
+
+

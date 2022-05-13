@@ -5,7 +5,7 @@ const createUser = async function (req, res) {
 
   let userCreated = await userModel.create(body);
 
-  res.status(200).send({ status: true, data: userCreated });}
+  res.status(201).send({ status: true, data: userCreated });}
   catch(err){
       res.status(500).send({status:false,message: err.message})
   }
