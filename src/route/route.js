@@ -1,7 +1,9 @@
 const express = require("express");
 const {createBook, getBooks, getBookById, updateBook, deleteBook} = require("../controller/bookController");
+const { createReview, updateReview, deleteReview } = require("../controller/reviewController");
 const { createUser, login } = require("../controller/userController");
 const { validateBookCreateInputs, catchErrorCreateBook, additionalValidationsCreateBook, validatingInputsOfGetBooks, catchErrorInputOfGetBooks, validatingInputsOfBookById, catchErrorInputOfBookById, validateUpdateBookInputs, catchErrorUpdateBookInputs, validateInputOfDeleteBook, catchErrorDeleteBookInput } = require("../middleware/bookValidation");
+const { validationsForCreateReview, catchErrorOfInputCreateReview, validationsForUpdateReview, catchErrorOfInputUpdateReview, validationsForDeleteReview } = require("../middleware/reviewValidation");
 const { validateCreateUserInputs, catchErrorOfUserInput, additionalValidationsCreateUser, additionalValidationsLoginUser, catchErrorOfLoginInput, loginUserInputsValidation } = require("../middleware/userValidation");
 const router = express.Router();// we were able to use app for get request but not here ,as we need Router function here ,why
 
@@ -19,6 +21,12 @@ router.get('/books',validatingInputsOfGetBooks,catchErrorInputOfGetBooks,getBook
 router.get('/books/:bookId',validatingInputsOfBookById,catchErrorInputOfBookById,getBookById )
 router.put('/books/:bookId',validateUpdateBookInputs,catchErrorUpdateBookInputs,updateBook )
 router.delete('/books/:bookId',validateInputOfDeleteBook,catchErrorDeleteBookInput,deleteBook )
+//============reviewApis
+router.post('/books/:bookId/review',validationsForCreateReview,catchErrorOfInputCreateReview,createReview)
+router.put('/books/:bookId/review/:reviewId',validationsForUpdateReview,catchErrorOfInputUpdateReview,updateReview )
+router.delete('/books/:bookId/review/:reviewId',validationsForDeleteReview,catchErrorOfInputCreateReview,deleteReview )
+
+
 
 module.exports= router
 

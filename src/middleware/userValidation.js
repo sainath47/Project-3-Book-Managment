@@ -9,7 +9,6 @@ exports.validateCreateUserInputs = [
     .withMessage("title is a required field")
     .matches(/\b(?:Mr|Miss|Mast)\b/)
     .withMessage("title cant othan than Mr, Mrs, Miss"),
-   
 
   check("name")
     .trim()
@@ -22,7 +21,7 @@ exports.validateCreateUserInputs = [
     .isLength({ min: 3, max: 20 })
     .withMessage("name must be within 3 to 20 characters"),
 
-    check("phone")
+  check("phone")
     .trim()
     .not()
     .isEmpty()
@@ -31,8 +30,7 @@ exports.validateCreateUserInputs = [
     .isLength({ min: 10, max: 10 })
     .withMessage("invalid mobile number, should contain 10 digits"),
 
-
-    check("email")
+  check("email")
     .trim()
     .not()
     .isEmpty()
@@ -41,7 +39,7 @@ exports.validateCreateUserInputs = [
     .isEmail()
     .withMessage("invalid email-Id"),
 
-    check("password")
+  check("password")
     .trim()
     .not()
     .isEmpty()
@@ -49,78 +47,76 @@ exports.validateCreateUserInputs = [
     .isLength({ min: 8, max: 15 })
     .withMessage("name must be within 3 to 20 characters"),
 
-
-  
-    check('address.street').trim(),
-    check('address.city').trim().optional(),
-    check('address.pincode').trim().isNumeric()
-   
-     
-
+  check("address.street").trim(),
+  check("address.city").trim().optional(),
+  check("address.pincode").trim().isNumeric(),
 ];
 
-exports.catchErrorOfUserInput = function(req,res,next){
-const result = validationResult(req).array()
-if(!result.length) return next() 
-const error = result[0].msg;
-res.status(400).send({status:false,message : error})}
+exports.catchErrorOfUserInput = function (req, res, next) {
+  const result = validationResult(req).array();
+  if (!result.length) return next();
+  const error = result[0].msg;
+  res.status(400).send({ status: false, message: error });
+};
 
-exports.additionalValidationsCreateUser = async function(req,res,next){
+exports.additionalValidationsCreateUser = async function (req, res, next) {
+  const { phone, email } = req.body;
+  let findMobile = await userModel.findOne({ phone });
+  if (findMobile)
+    return res
+      .status(400)
+      .send({
+        status: false,
+        message: "account already exit with this mobile no.",
+      });
+  let findEmail = await userModel.findOne({ email });
+  if (findEmail)
+    return res
+      .status(400)
+      .send({ status: false, message: "account already exit with this Email" });
 
-  const {phone,email} = req.body
-  let findMobile = await userModel.findOne({phone})
-  if(findMobile) return res.status(400).send({status:false,message:"account already exit with this mobile no."})
-  let findEmail = await userModel.findOne({email})
-  if(findEmail) return res.status(400).send({status:false,message:"account already exit with this Email"})
- 
-  next()
-}
-
+  next();
+};
 
 exports.loginUserInputsValidation = [
   check("email")
-  .trim()
-  .not()
-  .isEmpty()
-  .withMessage("email is a required field")
-  .normalizeEmail()
-  .isEmail()
-  .withMessage("invalid email-Id"),
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage("email is a required field")
+    .normalizeEmail()
+    .isEmail()
+    .withMessage("invalid email-Id"),
 
   check("password")
-  .trim()
-  .not()
-  .isEmpty()
-  .withMessage("name is a required field")
-  .isLength({ min: 8, max: 15 })
-  .withMessage("name must be within 3 to 20 characters"),
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage("name is a required field")
+    .isLength({ min: 8, max: 15 })
+    .withMessage("name must be within 3 to 20 characters"),
+];
 
-]
-
-
-exports.catchErrorOfLoginInput = function(req,res,next){
-  const result = validationResult(req).array()
-  if(!result.length) return next() 
+exports.catchErrorOfLoginInput = function (req, res, next) {
+  const result = validationResult(req).array();
+  if (!result.length) return next();
   const error = result[0].msg;
-  res.status(400).send({status:false,message : error})}
+  res.status(400).send({ status: false, message: error });
+};
 
-
-exports.additionalValidationsLoginUser = async function(req,res,next){
-
-  const {email,password}= req.body
-  let findUser = await userModel.findOne({email,password})
-  if(!findUser) return res.status(400).send({status:false,message:"no account with this credentials exist,please register"})
-req.userId = findUser._id
-  next()
-}
-
-
-
-
-
-
-
-
+exports.additionalValidationsLoginUser = async function (req, res, next) {
+  const { email, password } = req.body;
+  let findUser = await userModel.findOne({ email, password });
+  if (!findUser)
+    return res
+      .status(400)
+      .send({
+        status: false,
+        message: "no account with this credentials exist,please register",
+      });
+  req.userId = findUser._id;
+  next();
+};
 
 // const { check, validationResult } = require("express-validator/check");
 // const collegeModel = require("../../Models/collegeModel");
@@ -135,8 +131,6 @@ req.userId = findUser._id
 
 //   check("logoLink").trim().not().isEmpty().withMessage("logoLink is a required field").isURL().withMessage("not a valid url")
 // ];
-
-
 
 // // POST/functionup/colleges  : Validations for duplicate data
 
