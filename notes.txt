@@ -1,0 +1,24 @@
+  //most reliable validation
+  check("title")
+    .trim()
+    .not()
+   .exists()
+   .optional()
+    .withMessage("title cant be modified,since it is unique property")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

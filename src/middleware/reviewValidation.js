@@ -1,27 +1,30 @@
-const {check, validationResult} = require('express-validator')
+const {check,param,body, validationResult} = require('express-validator')
 
 exports.validationsForCreateReview = [
 
-    check("bookId")
+    param("bookId")
     .trim()
     .not()
     .isEmpty()
-    .withMessage("bookId is a required field")
+    .withMessage("bookId is a required field in param")
     .matches(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i)
     .withMessage("invalid bookId"),
 
-    check("reviewId")
+    body("bookId")
     .trim()
     .not()
     .isEmpty()
-    .withMessage("reviewId is a required field")
+    .withMessage("bookId is a required field in body")
     .matches(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i)
-    .withMessage("invalid reviewId"),
+    .withMessage("invalid bookId"),
+
+   
 
     check("reviewedBy")
     .trim()
     .not()
     .isEmpty()
+    .optional()
     .withMessage("reviewedBy is required field"),
 
     check("rating")

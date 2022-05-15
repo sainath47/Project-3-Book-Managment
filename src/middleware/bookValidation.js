@@ -124,8 +124,11 @@ exports.catchErrorInputOfBookById = function (req, res, next) {
 exports.validateUpdateBookInputs = [
   check("title")
     .trim()
-    .isEmpty()
-    .withMessage("title cant be modified ,since it is unique property"),
+    .not()
+   .exists()
+   .optional()
+    .withMessage("title cant be modified,since it is unique property"),
+  
 
   check("excerpt").trim(),
 
@@ -135,7 +138,7 @@ exports.validateUpdateBookInputs = [
     .isEmpty()
     .withMessage("ISBN cant be modified,since it is unique property")
     .matches(/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/i)
-    .withMessage("invalid userId"),
+    .withMessage("invalid ISBN"),
 
   check("releasedAt").trim(),
 ];

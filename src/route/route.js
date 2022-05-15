@@ -2,6 +2,7 @@ const express = require("express");
 const {createBook, getBooks, getBookById, updateBook, deleteBook} = require("../controller/bookController");
 const { createReview, updateReview, deleteReview } = require("../controller/reviewController");
 const { createUser, login } = require("../controller/userController");
+const { authentication, authorization } = require("../middleware/auth");
 const { validateBookCreateInputs, catchErrorCreateBook, additionalValidationsCreateBook, validatingInputsOfGetBooks, catchErrorInputOfGetBooks, validatingInputsOfBookById, catchErrorInputOfBookById, validateUpdateBookInputs, catchErrorUpdateBookInputs, validateInputOfDeleteBook, catchErrorDeleteBookInput } = require("../middleware/bookValidation");
 const { validationsForCreateReview, catchErrorOfInputCreateReview, validationsForUpdateReview, catchErrorOfInputUpdateReview, validationsForDeleteReview } = require("../middleware/reviewValidation");
 const { validateCreateUserInputs, catchErrorOfUserInput, additionalValidationsCreateUser, additionalValidationsLoginUser, catchErrorOfLoginInput, loginUserInputsValidation } = require("../middleware/userValidation");
@@ -16,11 +17,11 @@ const router = express.Router();// we were able to use app for get request but n
 router.post('/register',validateCreateUserInputs,catchErrorOfUserInput,additionalValidationsCreateUser ,createUser )
 router.post('/login',loginUserInputsValidation,catchErrorOfLoginInput,additionalValidationsLoginUser ,login)
 //=========bookApis
-router.post('/books',validateBookCreateInputs,catchErrorCreateBook, additionalValidationsCreateBook ,createBook)
-router.get('/books',validatingInputsOfGetBooks,catchErrorInputOfGetBooks,getBooks )
-router.get('/books/:bookId',validatingInputsOfBookById,catchErrorInputOfBookById,getBookById )
-router.put('/books/:bookId',validateUpdateBookInputs,catchErrorUpdateBookInputs,updateBook )
-router.delete('/books/:bookId',validateInputOfDeleteBook,catchErrorDeleteBookInput,deleteBook )
+router.post('/books',validateBookCreateInputs,catchErrorCreateBook, additionalValidationsCreateBook ,authorization,createBook)
+router.get('/books',validatingInputsOfGetBooks,catchErrorInputOfGetBooks,authentication,getBooks )
+router.get('/books/:bookId',validatingInputsOfBookById,catchErrorInputOfBookById,authentication,getBookById )
+router.put('/books/:bookId',validateUpdateBookInputs,catchErrorUpdateBookInputs,authorization,updateBook )
+router.delete('/books/:bookId',validateInputOfDeleteBook,catchErrorDeleteBookInput,authorization,deleteBook )
 //============reviewApis
 router.post('/books/:bookId/review',validationsForCreateReview,catchErrorOfInputCreateReview,createReview)
 router.put('/books/:bookId/review/:reviewId',validationsForUpdateReview,catchErrorOfInputUpdateReview,updateReview )

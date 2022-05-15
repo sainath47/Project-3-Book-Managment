@@ -3,9 +3,9 @@ const reviewModel = require("../model/reviewModel");
 
 const createReview = async function (req, res) {
   try {
-      
+   
     let createdReview = await reviewModel.create(req.body)
-    await bookModel.findOneAndUpdate({_id:req.body.bookId},{$inc:{reviews:1}})
+    await bookModel.findOneAndUpdate({_id:req.params.bookId},{$inc:{reviews:1}})
 
     res.status(201).send({ status: true, data: createdReview });
   } catch (err) {
